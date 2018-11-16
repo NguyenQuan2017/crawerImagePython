@@ -4,10 +4,9 @@ import os
 import uuid
 from bs4 import BeautifulSoup
 
-def spider(max_pages):
+def spider(url):
    page = 1
-   while page <= max_pages:
-        url = 'https://truyenqq.com/truyen-tranh/dao-hai-tac-128-chap-3.html'
+   while page <= 1:
         source_code = requests.get(url)
         plain_text = source_code.text
         soup = BeautifulSoup(plain_text,"lxml")
@@ -20,15 +19,16 @@ def spider(max_pages):
                 save_image(href)
         page += 1
 
-
 def save_image(url):
     file_name = 'one-piece-' + str(uuid.uuid1())
-    forderName = '/home/quan/Pictures/Crawler/1'
+    forderName = '/home/quan/Pictures/manga/onepice/1'
     pathFileName = os.path.join(forderName)
     if not os.path.exists(pathFileName):
         os.makedirs(pathFileName)
     file_suffix = os.path.splitext(url)[1]
-    filename = '{}{}{}{}'.format(pathFileName, os.sep, file_name, file_suffix)
+    originalImage = file_suffix.split("?")[0]
+    filename = '{}{}{}{}'.format(pathFileName, os.sep, file_name, originalImage)
     print( urllib.request.urlretrieve(url, filename=filename))
 
-spider(1)
+
+spider('https://truyenqq.com/truyen-tranh/dao-hai-tac-128-chap-1.html')
